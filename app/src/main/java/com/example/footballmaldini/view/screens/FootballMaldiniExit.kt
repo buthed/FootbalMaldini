@@ -15,30 +15,31 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.layoutId
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.footballmaldini.R
 import com.example.footballmaldini.view.components.FootballMaldiniBackground
 import com.example.footballmaldini.view.components.FootballMaldiniNavigateButtons
 import com.example.footballmaldini.view.ui.theme.FootballMaldiniTheme
 import com.example.footballmaldini.view.ui.theme.Typography
+import kotlin.system.exitProcess
 
 @Composable
-fun FootballMaldiniExit() {
+fun FootballMaldiniExit(navHostController: NavHostController) {
     FootballMaldiniBackground()
 
     FootballMaldiniNavigateButtons(
-        toMenu = {},
-        toOptions = {}
+        toMenu = { navHostController.popBackStack()},
+        toOptions = { navHostController.navigate("footballMaldiniOptions")}
     )
-    ConstraintLayout(FootballMaldiniExitConstraintSet(), Modifier.fillMaxSize()) {
+    ConstraintLayout(footballMaldiniExitConstraintSet(), Modifier.fillMaxSize()) {
         Image(painter = painterResource(id = R.drawable.bg_tab), contentDescription = "",
             Modifier.layoutId("fmExitBg"))
         Image(painter = painterResource(id = R.drawable.exit), contentDescription = "",
-            Modifier
-                .layoutId("fmExitTitle")
-                .width(100.dp)
-                .height(50.dp))
+            Modifier.layoutId("fmExitTitle").width(100.dp).height(50.dp))
         Image(painter = painterResource(id = R.drawable.close), contentDescription = "",
-            Modifier.layoutId("fmExitClose").size(30.dp).clickable {  })
+            Modifier.layoutId("fmExitClose").size(30.dp)
+                .clickable {  navHostController.popBackStack() })
         Column(Modifier.layoutId("fmExitContent"),
             verticalArrangement = Arrangement.spacedBy(30.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -46,21 +47,19 @@ fun FootballMaldiniExit() {
             Text(text = stringResource(id = R.string.exit_question).uppercase(), style = Typography.h1)
             Row() {
                 Image(painter = painterResource(id = R.drawable.yes), contentDescription = "",
-                    Modifier
-                        .size(40.dp)
-                        .clickable { })
+                    Modifier.size(40.dp)
+                        .clickable { exitProcess(-1) })
                 Spacer(Modifier.width(50.dp))
                 Image(painter = painterResource(id = R.drawable.no), contentDescription = "",
-                    Modifier
-                        .size(40.dp)
-                        .clickable { })
+                    Modifier.size(40.dp)
+                        .clickable { navHostController.popBackStack() })
             }
         }
     }
 }
 
 @Composable
-fun FootballMaldiniExitConstraintSet(): ConstraintSet {
+fun footballMaldiniExitConstraintSet(): ConstraintSet {
     return ConstraintSet {
         val fmExitBg = (createRefFor("fmExitBg"))
         val fmExitTitle = (createRefFor("fmExitTitle"))
@@ -96,7 +95,9 @@ fun FootballMaldiniExitConstraintSet(): ConstraintSet {
 @Preview(device = Devices.PIXEL_4, widthDp = 720, heightDp = 360)
 @Composable
 fun FootballMaldiniExitScreenPreview() {
+    val navHostController = rememberNavController()
+
     FootballMaldiniTheme() {
-        FootballMaldiniExit()
+        FootballMaldiniExit(navHostController)
     }
 }

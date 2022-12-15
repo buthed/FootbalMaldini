@@ -12,6 +12,8 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.layoutId
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.footballmaldini.R
 import com.example.footballmaldini.view.components.*
 import com.example.footballmaldini.view.components.match.FootballMaldiniBetTab
@@ -20,12 +22,12 @@ import com.example.footballmaldini.view.components.match.FootballMaldiniThrowBut
 import com.example.footballmaldini.view.ui.theme.FootballMaldiniTheme
 
 @Composable
-fun FootballMaldiniMatch() {
+fun FootballMaldiniMatch(navHostController: NavHostController) {
     FootballMaldiniBackground()
 
     FootballMaldiniNavigateButtons(
-        toMenu = {},
-        toOptions = {}
+        toMenu = { navHostController.popBackStack() },
+        toOptions = { navHostController.navigate("footballMaldiniOptions")}
     )
     FootballMaldiniBalanceTab(1250)
 
@@ -35,9 +37,9 @@ fun FootballMaldiniMatch() {
 
     FootballMaldiniThrowButton{ }
 
-    ConstraintLayout(FootballMaldiniMatchConstraintSet(),
+    ConstraintLayout(footballMaldiniMatchConstraintSet(),
         Modifier
-            .fillMaxHeight()
+            .fillMaxSize()
             .width(300.dp)
             .padding(top = 50.dp, bottom = 85.dp)
     ) {
@@ -77,7 +79,7 @@ fun FootballMaldiniMatch() {
 }
 
 @Composable
-fun FootballMaldiniMatchConstraintSet(): ConstraintSet {
+fun footballMaldiniMatchConstraintSet(): ConstraintSet {
     return ConstraintSet {
         val fmMatchGates = (createRefFor("fmMatchGates"))
         val fmMatchGoal1 = (createRefFor("fmMatchGoal1"))
@@ -120,7 +122,9 @@ fun FootballMaldiniMatchConstraintSet(): ConstraintSet {
 @Preview(device = Devices.PIXEL_4, widthDp = 720, heightDp = 360)
 @Composable
 fun FootballMaldiniMatchPreview() {
+    val navHostController = rememberNavController()
+
     FootballMaldiniTheme() {
-        FootballMaldiniMatch()
+        FootballMaldiniMatch(navHostController)
     }
 }

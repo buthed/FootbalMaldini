@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.layoutId
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.footballmaldini.R
 import com.example.footballmaldini.view.components.FootballMaldiniBackground
 import com.example.footballmaldini.view.components.FootballMaldiniNavigateButtons
@@ -22,15 +24,15 @@ import com.example.footballmaldini.view.ui.theme.FootballMaldiniTheme
 import com.example.footballmaldini.view.ui.theme.Typography
 
 @Composable
-fun FootballMaldiniOptions() {
+fun FootballMaldiniOptions(navHostController: NavHostController) {
     FootballMaldiniBackground()
 
     FootballMaldiniNavigateButtons(
-        toMenu = {},
-        toOptions = {}
+        toMenu = { navHostController.popBackStack() },
+        toOptions = { navHostController.navigate("footballMaldiniOptions")}
     )
 
-    ConstraintLayout(FootballMaldiniOptionsConstraintSet(), Modifier.fillMaxSize()) {
+    ConstraintLayout(footballMaldiniOptionsConstraintSet(), Modifier.fillMaxSize()) {
         Image(painter = painterResource(id = R.drawable.bg_tab), contentDescription = "",
             Modifier.layoutId("fmOptionsBg"))
         Image(painter = painterResource(id = R.drawable.options01), contentDescription = "",
@@ -39,7 +41,8 @@ fun FootballMaldiniOptions() {
                 .width(100.dp)
                 .height(50.dp))
         Image(painter = painterResource(id = R.drawable.close), contentDescription = "",
-            Modifier.layoutId("fmOptionsClose").size(30.dp).clickable {  })
+            Modifier.layoutId("fmOptionsClose").size(30.dp)
+                .clickable { navHostController.popBackStack()  })
         Column(Modifier.layoutId("fmOptionsContent"),
             verticalArrangement = Arrangement.spacedBy(5.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -74,7 +77,7 @@ fun FootballMaldiniOptions() {
 }
 
 @Composable
-fun FootballMaldiniOptionsConstraintSet(): ConstraintSet {
+fun footballMaldiniOptionsConstraintSet(): ConstraintSet {
     return ConstraintSet {
         val fmOptionsBg = (createRefFor("fmOptionsBg"))
         val fmOptionsTitle = (createRefFor("fmOptionsTitle"))
@@ -110,7 +113,9 @@ fun FootballMaldiniOptionsConstraintSet(): ConstraintSet {
 @Preview(device = Devices.PIXEL_4, widthDp = 720, heightDp = 360)
 @Composable
 fun FootballMaldiniOptionsPreview() {
+    val navHostController = rememberNavController()
+
     FootballMaldiniTheme() {
-        FootballMaldiniOptions()
+        FootballMaldiniOptions(navHostController)
     }
 }
