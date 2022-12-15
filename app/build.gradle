@@ -9,7 +9,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.footbalmaldini"
+        applicationId "com.example.footballmaldini"
         minSdk 23
         targetSdk 33
         versionCode 1
