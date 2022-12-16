@@ -1,6 +1,7 @@
 package com.example.footballmaldini.view.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -12,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.layoutId
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.footballmaldini.R
@@ -20,18 +22,21 @@ import com.example.footballmaldini.view.components.match.FootballMaldiniBetTab
 import com.example.footballmaldini.view.components.match.FootballMaldiniResultText
 import com.example.footballmaldini.view.components.match.FootballMaldiniThrowButton
 import com.example.footballmaldini.view.ui.theme.FootballMaldiniTheme
+import com.example.footballmaldini.view.viewmodels.FootballMaldiniMatchViewModels
 
 @Composable
 fun FootballMaldiniMatch(navHostController: NavHostController) {
+    val viewmodel = hiltViewModel<FootballMaldiniMatchViewModels>()
+
     FootballMaldiniBackground()
 
     FootballMaldiniNavigateButtons(
         toMenu = { navHostController.popBackStack() },
         toOptions = { navHostController.navigate("footballMaldiniOptions")}
     )
-    FootballMaldiniBalanceTab(1250)
+    FootballMaldiniBalanceTab(viewmodel.footballMaldiniBalance)
 
-    FootballMaldiniBetTab()
+    FootballMaldiniBetTab(viewmodel)
 
     FootballMaldiniResultText()
 
@@ -45,37 +50,47 @@ fun FootballMaldiniMatch(navHostController: NavHostController) {
     ) {
         Image(painter = painterResource(id = R.drawable.gates), contentDescription = "",
             Modifier.layoutId("fmMatchGates"))
-        Box(Modifier.layoutId("fmMatchGoal1"), contentAlignment = Alignment.Center){
-            Image(painter = painterResource(id = R.drawable.select), contentDescription = "",
-                Modifier.size(40.dp))
-            Image(painter = painterResource(id = R.drawable.goal), contentDescription = "",
-                Modifier.size(33.dp))
+        Box(Modifier.layoutId("fmMatchGoal1").size(40.dp)
+            .clickable { viewmodel.footballMaldiniChoosedGoal = 1},
+            contentAlignment = Alignment.Center
+        ){
+            GoalTarget(viewmodel.footballMaldiniChoosedGoal == 1)
         }
-        Box(Modifier.layoutId("fmMatchGoal2"), contentAlignment = Alignment.Center){
-            Image(painter = painterResource(id = R.drawable.select), contentDescription = "",
-                Modifier.size(40.dp))
-            Image(painter = painterResource(id = R.drawable.goal), contentDescription = "",
-                Modifier.size(33.dp))
+        Box(Modifier.layoutId("fmMatchGoal2").size(40.dp)
+            .clickable { viewmodel.footballMaldiniChoosedGoal = 2},
+            contentAlignment = Alignment.Center
+        ){
+            GoalTarget(viewmodel.footballMaldiniChoosedGoal == 2)
         }
-        Box(Modifier.layoutId("fmMatchGoal3"), contentAlignment = Alignment.Center){
-            Image(painter = painterResource(id = R.drawable.select), contentDescription = "",
-                Modifier.size(40.dp))
-            Image(painter = painterResource(id = R.drawable.goal), contentDescription = "",
-                Modifier.size(33.dp))
+        Box(Modifier.layoutId("fmMatchGoal3").size(40.dp)
+            .clickable { viewmodel.footballMaldiniChoosedGoal = 3},
+            contentAlignment = Alignment.Center
+        ){
+            GoalTarget(viewmodel.footballMaldiniChoosedGoal == 3)
         }
-        Box(Modifier.layoutId("fmMatchGoal4"), contentAlignment = Alignment.Center){
-            Image(painter = painterResource(id = R.drawable.select), contentDescription = "",
-                Modifier.size(40.dp))
-            Image(painter = painterResource(id = R.drawable.goal), contentDescription = "",
-                Modifier.size(33.dp))
+        Box(Modifier.layoutId("fmMatchGoal4").size(40.dp)
+            .clickable { viewmodel.footballMaldiniChoosedGoal = 4},
+            contentAlignment = Alignment.Center
+        ){
+            GoalTarget(viewmodel.footballMaldiniChoosedGoal == 4)
         }
-        Box(Modifier.layoutId("fmMatchGoal5"), contentAlignment = Alignment.Center){
-            Image(painter = painterResource(id = R.drawable.select), contentDescription = "",
-                Modifier.size(40.dp))
-            Image(painter = painterResource(id = R.drawable.goal), contentDescription = "",
-                Modifier.size(33.dp))
+        Box(Modifier.layoutId("fmMatchGoal5").size(40.dp)
+            .clickable { viewmodel.footballMaldiniChoosedGoal = 5},
+            contentAlignment = Alignment.Center
+        ){
+            GoalTarget(viewmodel.footballMaldiniChoosedGoal == 5)
         }
     }
+}
+
+@Composable
+private fun GoalTarget(selected: Boolean) {
+    if (selected) {
+        Image(painter = painterResource(id = R.drawable.select), contentDescription = "",
+            Modifier.size(40.dp))
+    }
+    Image(painter = painterResource(id = R.drawable.goal), contentDescription = "",
+        Modifier.size(33.dp))
 }
 
 @Composable

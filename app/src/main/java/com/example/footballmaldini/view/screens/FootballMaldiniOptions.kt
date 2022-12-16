@@ -29,7 +29,7 @@ fun FootballMaldiniOptions(navHostController: NavHostController) {
 
     FootballMaldiniNavigateButtons(
         toMenu = { navHostController.popBackStack() },
-        toOptions = { navHostController.navigate("footballMaldiniOptions")}
+        toOptions = {}
     )
 
     ConstraintLayout(footballMaldiniOptionsConstraintSet(), Modifier.fillMaxSize()) {
