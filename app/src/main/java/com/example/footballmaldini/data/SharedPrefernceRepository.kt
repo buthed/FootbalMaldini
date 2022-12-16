@@ -22,29 +22,29 @@ class  SharedPrefernceRepository @Inject constructor(
             .putInt("football_maldini_preference_balance", newBalance)
             .apply()
     }
-    fun footballMoldiniPrefBalanceGet() {
-        footballMaldiniPrefBalance.getInt("football_maldini_preference_balance", 2000)
+    fun footballMoldiniPrefBalanceGet(): Int {
+        return footballMaldiniPrefBalance.getInt("football_maldini_preference_balance", 2000)
     }
 
-    fun footballMoldiniPrefMusicSave() {
+    fun footballMoldiniPrefMusicSave(newMusicMode: Boolean) {
         footballMaldiniPrefMusic
             .edit()
-            .putBoolean("football_maldini_preference_music", true)
+            .putBoolean("football_maldini_preference_music", newMusicMode)
             .apply()
     }
 
-    fun footballMoldiniPrefMusicGet(newMusicMode: Boolean) {
-        footballMaldiniPrefMusic.getBoolean("football_maldini_preference_music", true)
+    fun footballMoldiniPrefMusicGet(): Boolean {
+        return footballMaldiniPrefMusic.getBoolean("football_maldini_preference_music", true)
     }
 
-    fun footballMoldiniPrefSoundsSave(newMusicMode: Boolean) {
+    fun footballMoldiniPrefSoundsSave(newSoundsMode: Boolean) {
         footballMaldiniPrefSounds
             .edit()
-            .putBoolean("football_maldini_preference_sounds", newMusicMode)
+            .putBoolean("football_maldini_preference_sounds", newSoundsMode)
             .apply()
     }
 
-    fun footballMoldiniPrefSoundsGet() {
-        footballMaldiniPrefSounds.getBoolean("football_maldini_preference_sounds", true)
+    fun footballMoldiniPrefSoundsGet(): Boolean {
+        return footballMaldiniPrefSounds.getBoolean("football_maldini_preference_sounds", true)
     }
 }

@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.layoutId
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.footballmaldini.R
@@ -22,9 +23,13 @@ import com.example.footballmaldini.view.components.FootballMaldiniBackground
 import com.example.footballmaldini.view.components.FootballMaldiniNavigateButtons
 import com.example.footballmaldini.view.ui.theme.FootballMaldiniTheme
 import com.example.footballmaldini.view.ui.theme.Typography
+import com.example.footballmaldini.view.viewmodels.FootballMaldiniMatchViewModels
+import com.example.footballmaldini.view.viewmodels.FootballMaldiniOptionsViewModel
 
 @Composable
 fun FootballMaldiniOptions(navHostController: NavHostController) {
+    val viewmodel = hiltViewModel<FootballMaldiniOptionsViewModel>()
+
     FootballMaldiniBackground()
 
     FootballMaldiniNavigateButtons(
@@ -41,8 +46,10 @@ fun FootballMaldiniOptions(navHostController: NavHostController) {
                 .width(100.dp)
                 .height(50.dp))
         Image(painter = painterResource(id = R.drawable.close), contentDescription = "",
-            Modifier.layoutId("fmOptionsClose").size(30.dp)
-                .clickable { navHostController.popBackStack()  })
+            Modifier
+                .layoutId("fmOptionsClose")
+                .size(30.dp)
+                .clickable { navHostController.popBackStack() })
         Column(Modifier.layoutId("fmOptionsContent"),
             verticalArrangement = Arrangement.spacedBy(5.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -52,12 +59,12 @@ fun FootballMaldiniOptions(navHostController: NavHostController) {
                 Image(painter = painterResource(id = R.drawable.on), contentDescription = "",
                     Modifier
                         .size(40.dp)
-                        .clickable { })
+                        .clickable { viewmodel.footballMaldiniMusicMode = true })
                 Spacer(Modifier.width(50.dp))
                 Image(painter = painterResource(id = R.drawable.off), contentDescription = "",
                     Modifier
                         .size(40.dp)
-                        .clickable { })
+                        .clickable { viewmodel.footballMaldiniMusicMode = false })
             }
             Spacer(Modifier.height(10.dp))
             Text(text = stringResource(id = R.string.sounds).uppercase(), style = Typography.h1)
@@ -65,14 +72,20 @@ fun FootballMaldiniOptions(navHostController: NavHostController) {
                 Image(painter = painterResource(id = R.drawable.on), contentDescription = "",
                     Modifier
                         .size(40.dp)
-                        .clickable { })
+                        .clickable { viewmodel.footballMaldiniSoundsMode = true })
                 Spacer(Modifier.width(50.dp))
                 Image(painter = painterResource(id = R.drawable.off), contentDescription = "",
                     Modifier
                         .size(40.dp)
-                        .clickable { })
+                        .clickable { viewmodel.footballMaldiniSoundsMode = false })
             }
         }
+        Image(painter = painterResource(id = R.drawable.ok), contentDescription = "",
+            Modifier.layoutId("fmOptionsOk").size(60.dp)
+                .clickable {
+                    viewmodel.footballMoldiniSavePreferences()
+                    navHostController.popBackStack()
+                })
     }
 }
 
@@ -83,6 +96,7 @@ fun footballMaldiniOptionsConstraintSet(): ConstraintSet {
         val fmOptionsTitle = (createRefFor("fmOptionsTitle"))
         val fmOptionsContent = (createRefFor("fmOptionsContent"))
         val fmOptionsClose = (createRefFor("fmOptionsClose"))
+        val fmOptionsOk = (createRefFor("fmOptionsOk"))
 
         constrain(fmOptionsBg) {
             top.linkTo(parent.top,)
@@ -106,6 +120,12 @@ fun footballMaldiniOptionsConstraintSet(): ConstraintSet {
             top.linkTo(fmOptionsBg.top)
             bottom.linkTo(fmOptionsBg.top)
             start.linkTo(fmOptionsBg.end)
+        }
+        constrain(fmOptionsOk) {
+            top.linkTo(fmOptionsBg.bottom,)
+            bottom.linkTo(fmOptionsBg.bottom)
+            start.linkTo(fmOptionsBg.start)
+            end.linkTo(fmOptionsBg.end)
         }
     }
 }
