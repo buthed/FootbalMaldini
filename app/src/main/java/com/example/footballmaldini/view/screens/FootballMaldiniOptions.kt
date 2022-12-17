@@ -23,7 +23,6 @@ import com.example.footballmaldini.view.components.FootballMaldiniBackground
 import com.example.footballmaldini.view.components.FootballMaldiniNavigateButtons
 import com.example.footballmaldini.view.ui.theme.FootballMaldiniTheme
 import com.example.footballmaldini.view.ui.theme.Typography
-import com.example.footballmaldini.view.viewmodels.FootballMaldiniMatchViewModels
 import com.example.footballmaldini.view.viewmodels.FootballMaldiniOptionsViewModel
 
 @Composable

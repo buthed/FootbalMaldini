@@ -29,7 +29,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.footballmaldini.R
-import com.example.footballmaldini.view.components.*
+import com.example.footballmaldini.view.components.FootballMaldiniBackground
+import com.example.footballmaldini.view.components.FootballMaldiniBalanceTab
+import com.example.footballmaldini.view.components.FootballMaldiniNavigateButtons
 import com.example.footballmaldini.view.components.match.FootballMaldiniBetTab
 import com.example.footballmaldini.view.components.match.FootballMaldiniResultText
 import com.example.footballmaldini.view.components.match.FootballMaldiniThrowButton

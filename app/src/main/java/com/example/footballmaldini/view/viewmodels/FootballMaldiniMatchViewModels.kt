@@ -89,7 +89,6 @@ class FootballMaldiniMatchViewModels @Inject constructor(
         }
     }
 
-
     fun footballMaldiniRandomGoal() {
         footballMaldiniRandomGoal = Random.nextBoolean()
     }
