@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.footballmaldini.data.MediaPlayerRepository
+import com.example.footballmaldini.data.SharedPrefernceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -14,7 +15,8 @@ import kotlin.random.Random
 
 @HiltViewModel
 class FootballMaldiniMatchViewModels @Inject constructor(
-    private val mediaPlayerRepository: MediaPlayerRepository
+    private val mediaPlayerRepository: MediaPlayerRepository,
+    private val sharedPrefernceRepository: SharedPrefernceRepository
 ): ViewModel() {
 
     var footballMaldiniChoosedGoal by mutableStateOf(0)
@@ -28,6 +30,10 @@ class FootballMaldiniMatchViewModels @Inject constructor(
     var footballMaldiniBalance by mutableStateOf(2000)
 
     var footballMaldiniBet by mutableStateOf(200)
+
+    init {
+        footballMaldiniGetBalanceFromPref()
+    }
 
     fun footballMaldiniBetReset() {
         footballMaldiniBet = 0
@@ -46,7 +52,10 @@ class FootballMaldiniMatchViewModels @Inject constructor(
     }
 
     fun footballMaldiniAddMoney() {
-        if (footballMaldiniBalance==0) footballMaldiniBalance+=1000
+        if (footballMaldiniBalance==0)  {
+            footballMaldiniBalance+=1000
+            footballMaldiniSaveBalanceToPref()
+        }
     }
 
     fun footballMaldiniThrowBall() {
@@ -55,6 +64,7 @@ class FootballMaldiniMatchViewModels @Inject constructor(
                 footballMaldiniBallIsThrow = true
                 footballMaldiniReadyForThrow = false
                 footballMaldiniBalance-=footballMaldiniBet
+                footballMaldiniSaveBalanceToPref()
                 footballMaldiniRandomGoal()
             }
         }
@@ -70,6 +80,7 @@ class FootballMaldiniMatchViewModels @Inject constructor(
         }
         return if (footballMaldiniRandomGoal) {
             footballMaldiniBalance+=footballMaldiniBet*2
+            footballMaldiniSaveBalanceToPref()
             mediaPlayerRepository.playFootballMaldiniWinSound()
             true
         } else {
@@ -81,5 +92,13 @@ class FootballMaldiniMatchViewModels @Inject constructor(
 
     fun footballMaldiniRandomGoal() {
         footballMaldiniRandomGoal = Random.nextBoolean()
+    }
+
+    fun footballMaldiniGetBalanceFromPref() {
+        footballMaldiniBalance = sharedPrefernceRepository.footballMoldiniPrefBalanceGet()
+    }
+
+    fun footballMaldiniSaveBalanceToPref() {
+        sharedPrefernceRepository.footballMoldiniPrefBalanceSave(footballMaldiniBalance)
     }
 }
