@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import javax.inject.Inject
 import javax.inject.Named
 
-class  SharedPrefernceRepository @Inject constructor(
+class SharedPrefernceRepository @Inject constructor(
 
     @Named("football_maldini_preference_balance")
     private val footballMaldiniPrefBalance: SharedPreferences,

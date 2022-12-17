@@ -12,9 +12,15 @@ class MediaPlayerRepository @Inject constructor(
     @Named("MissSound")
     private val footballMaldiniMissSound: MediaPlayer,
 
+    private val sharedPrefernceRepository: SharedPrefernceRepository
+
 ) {
 
-    fun playFootballMaldiniWinSound() = footballMaldiniWinSound.start()
+    fun playFootballMaldiniWinSound() {
+        if (sharedPrefernceRepository.footballMoldiniPrefSoundsGet()) footballMaldiniWinSound.start()
+    }
 
-    fun playFootballMaldiniMissSound() = footballMaldiniMissSound.start()
+    fun playFootballMaldiniMissSound() {
+        if (sharedPrefernceRepository.footballMoldiniPrefSoundsGet()) footballMaldiniMissSound.start()
+    }
 }
