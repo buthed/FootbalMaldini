@@ -12,10 +12,10 @@ import androidx.compose.ui.unit.dp
 import com.example.footballmaldini.view.ui.theme.Typography
 
 @Composable
-fun FootballMaldiniResultText() {
+fun FootballMaldiniResultText(resultText: String) {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
         Row(Modifier.height(50.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Excellent!".uppercase(),
+            Text(text = resultText.uppercase(),
                 style = Typography.h1, )
         }
     }
